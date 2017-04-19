@@ -80,7 +80,7 @@ class Purchase(models.Model):
         for gme in games:
             g = Game.objects.get(game=gme)
             self.game.add(g)
-        
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User,blank=True,null=True)
@@ -114,6 +114,15 @@ class Reward(models.Model):
     def numberOfReward(user):
             Reward.objects.all().filter(user=user)
             return
+    def getAmountToNextReward(user):
+            numberOfReward = Reward.objects.all().count()
+            gameList = getUserPurchaseHistory(user)
+            origin = 100
+            spent = 0
+            for game in gameList:
+                spent += game.price
+            return origin - spent%100
+
 
 
 class Administrator(models.Model):
@@ -123,4 +132,3 @@ class Recommendation(models.Model):
 	userId = models.ForeignKey(User)
 	def __str__(self):
 		return self.userId.first_name + self.userId.last_name
-    

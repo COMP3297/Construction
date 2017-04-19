@@ -8,13 +8,13 @@ from fume.models import Game,Cart,Tag,User,Recommendation,Purchase,Platform,getU
 from fume.forms import LoginForm,NameForm,PlatformForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
-from datetime import datetime 
+from datetime import datetime
 from fume.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 
 
-	
-	
+
+
 def signup(request):
 	if request.method == 'POST':
 		form = SignUpForm(request.POST)
@@ -45,7 +45,7 @@ def purchase(request, game_id):
 
 	newgame=Game.objects.get(game_id=game_id)
 	user = request.user
-	print(user)	
+	print(user)
 	try:
 		this_cart = Cart.objects.get(user = user)
 	except:
@@ -132,7 +132,7 @@ def featured(request):
 		for eachRelatedTag in eachPurchasedGame.tag_set.all():
 			if eachRelatedTag not in tagList:
 				tagList.append(eachRelatedTag)
-	
+
 	### Look for four games that are most affliated with the tags ###
 	# Create a recommendation list
 	rcmdList = []
@@ -149,9 +149,9 @@ def featured(request):
 	sorted_tup = sorted(similarity_dic.items(), key=operator.itemgetter(1))
 
 	#Print Rewards
-	#rewards=Reward.objects.get(user=currentUser)
-
-
+	rewards=Reward.objects.get(user=currentUser).amount
+	amountToNextReward = Reward.getAmountToNextReward(currentUser)
+	print(sorted_tup)
 	# Put four games into rcmdList if the game is not yet purchased
 	i = 0
 	while len(rcmdList) < 4:
@@ -159,6 +159,4 @@ def featured(request):
 			rcmdList.append(sorted_tup[len(sorted_tup)-i-1][0])
 		i += 1
 
-	#return render(request, 'fume/featured.html', {'rcmdList':rcmdList, 'reward':rewards})
-	return render(request, 'fume/featured.html', {'rcmdList':rcmdList})
-
+	return render(request, 'fume/featured.html', {'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
