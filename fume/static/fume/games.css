@@ -1,0 +1,262 @@
+*{
+  margin:0px;
+  padding:0px;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.clearfix::after{
+  content:'';
+  clear:both;
+  display:block;
+
+}
+
+ul{
+  list-style: none;
+}
+
+.container{
+  width:1000px;
+  margin: 0px auto;
+}
+
+.nav{
+  padding-bottom: 10px;
+}
+
+
+.login{
+  float: right;
+}
+.login > li{
+  float:right;
+  margin: 10px 5px 5px 5px;
+}
+
+.menu{
+  display:flex;
+  justify-content: center;
+}
+
+.menu > li{
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.top{
+  display:flex;
+  justify-content: space-between;
+}
+
+.gameImage{
+  width: 650px;
+  display:flex;
+  flex-direction: column;
+}
+
+.big{
+  width:100%;
+  heigth:400px;
+}
+
+.smallImage{
+  display:flex;
+  justify-content: center
+}
+
+.small{
+  width: 170px;
+  height: 100px;
+}
+
+.gameIntro{
+  width: 300px;
+}
+
+.introImage{
+  width:100%;
+}
+
+.tagging{
+  display:flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.tag{
+  padding: 5px;
+  border: 0.5px solid silver;
+  border-radius: 7px;
+  margin: 2px;
+}
+
+.addB{
+  border:0px;
+}
+
+#addbutton{
+  height:15px;
+  width:15px;
+
+}
+
+.purchaseC{
+  padding: 10px 5px;
+}
+
+.purchase, .purchase2{
+  width: 120px;
+  float:left;
+  text-align: center;
+  border: 0.5px solid silver;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.comment{
+  padding: 10px 0px;
+}
+
+.content{
+  font-size: 15px;
+}
+
+.userID{
+  font-weight: normal;
+}
+*{
+  margin:0px;
+  padding:0px;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.clearfix::after{
+  content:'';
+  clear:both;
+  display:block;
+
+}
+
+ul{
+  list-style: none;
+}
+
+.container{
+  width:1000px;
+  margin: 0px auto;
+}
+
+.nav{
+  padding-bottom: 10px;
+}
+
+
+.login{
+  float: right;
+}
+.login > li{
+  float:right;
+  margin: 10px 5px 5px 5px;
+}
+
+.menu{
+  display:flex;
+  justify-content: center;
+}
+
+.menu > li{
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.top{
+  display:flex;
+  justify-content: space-between;
+}
+
+.gameImage{
+  width: 650px;
+  display:flex;
+  flex-direction: column;
+}
+
+.big{
+  width:100%;
+  heigth:400px;
+}
+
+.smallImage{
+  display:flex;
+  justify-content: center
+}
+
+.small{
+  width: 170px;
+  height: 100px;
+}
+
+.gameIntro{
+  width: 300px;
+}
+
+.introImage{
+  width:100%;
+}
+
+.tagging{
+  display:flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.tag{
+  padding: 5px;
+  border: 0.5px solid silver;
+  border-radius: 7px;
+  margin: 2px;
+}
+
+.addB{
+  border:0px;
+}
+
+#addbutton{
+  height:15px;
+  width:15px;
+
+}
+
+.purchaseC{
+  padding: 10px 5px;
+}
+
+.purchase, .purchase2{
+  width: 100px;
+  float:left;
+  text-align: center;
+  border: 0.5px solid silver;
+  border-radius: 7px;
+  padding: 5px;
+}
+
+.comment{
+  padding: 10px 0px;
+}
+
+.content{
+  font-size: 15px;
+}
+
+.userID{
+  font-weight: normal;
+}

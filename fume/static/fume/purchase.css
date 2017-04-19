@@ -1,0 +1,113 @@
+*{
+  margin:0px;
+  padding:0px;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.clearfix::after{
+  content:'';
+  clear:both;
+  display:block;
+
+}
+
+ul{
+  list-style: none;
+}
+
+.container{
+  width:1000px;
+  margin: 0px auto;
+}
+
+.smallContainer{
+  width:600px;
+}
+
+.nav{
+  padding-bottom: 10px;
+}
+
+
+.login{
+  float: right;
+}
+.login > li{
+  float:right;
+  margin: 10px 5px 5px 5px;
+}
+
+.menu{
+  display:flex;
+  justify-content: center;
+}
+
+.menu > li{
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.item{
+  height: 60px;
+  border: 1px solid silver;
+}
+
+input{
+  margin-left: 10px;
+}
+
+.gameTotal{
+  padding: 20px 0px;
+}
+
+
+.reward > h3{
+  padding-bottom: 10px;
+}
+
+.rewardNotice{
+  padding: 5px 0px 5px 0px;
+}
+
+.rewardAsk{
+  float:left;
+}
+
+.enterReward{
+  float:right;
+}
+
+.rewardInput{
+  float:right;
+}
+
+.name{
+  float: left;
+}
+
+.price{
+  float:right;
+  margin: 0px 10px;
+}
+
+.amount{
+  float: right;
+  magin: 0px 10px;
+}
+
+.tamount{
+  float:left;
+}
+
+.tprice{
+  float:left;
+}
+
+.purchaseButton{
+  float:right;
+}

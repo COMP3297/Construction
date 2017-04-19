@@ -1,0 +1,119 @@
+*{
+  margin:0px;
+  padding:0px;
+}
+
+a{
+  text-decoration: none;
+  color: black;
+}
+
+.clearfix::after{
+  content:'';
+  clear:both;
+  display:block;
+
+}
+
+ul{
+  list-style: none;
+}
+
+.container{
+  width:1000px;
+  margin: 0px auto;
+}
+
+.leftlist{
+  margin-bottom: 30px;
+}
+
+.type, .item{
+  margin: 5px 0px;
+}
+
+.type{
+  font-weight: bold;
+}
+
+.first{
+  display: flex;
+}
+
+
+.login{
+  float: right;
+}
+.login > li{
+  float:right;
+  margin: 10px 5px 5px 5px;
+}
+
+.menu{
+  display:flex;
+  justify-content: center;
+}
+
+.menu > li{
+  padding: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.leftcontainer{
+  width: 100px;
+}
+
+.featured{
+  display:flex;
+
+}
+
+.right{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.big{
+  width:660px;
+  height:400px;
+  margin-right: 5px;
+}
+
+.small{
+  width:150px;
+  height: 130px;
+}
+
+.smallFeatured{
+  padding-top: 50px;
+  display:flex;
+  justify-content: space-between;
+}
+
+.small2{
+  width: 200px;
+  height:130px;
+}
+
+.recommended{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 30px;
+}
+
+.recItem{
+  display:flex;
+  justify-content: center;
+  margin: 3px 0px;
+}
+
+.text{
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 630px;
+  margin-left: 10px;
+}
