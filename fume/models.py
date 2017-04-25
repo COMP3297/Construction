@@ -130,12 +130,14 @@ class Administrator(models.Model):
 	adminID = models.CharField(max_length=200)
 
 class Recommendation(models.Model):
+    
 	userId = models.ForeignKey(User)
 	def __str__(self):
 		return self.userId.first_name + self.userId.last_name
 	def getRecommendationList(user):
 		### Get a list of tags from user purchase history ###
 		tagList = []
+		print("getting recommendation")
 		# Call the function to get purchase history
 		purchasedList = getUserPurchaseHistory(user)
 		# Put all the related tags into tagList
