@@ -1,10 +1,10 @@
-import operator
+
 from django.shortcuts import render,redirect
 
 # Create your views here.
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from fume.models import Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory, Reward
+from fume.models import Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,Recommendation
 from fume.forms import LoginForm,NameForm,PlatformForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -121,42 +121,13 @@ def addtag(request, game_id):
 def featured(request):
 
 	currentUser = request.user
-	print(currentUser)
-	### Get a list of tags from user purchase history ###
-	# Create a tag list
-	tagList = []
-	# Call the function to get purchase history
-	purchasedList = getUserPurchaseHistory(currentUser)
-	# Put all the related tags into tagList
-	for eachPurchasedGame in purchasedList:
-		for eachRelatedTag in eachPurchasedGame.tag_set.all():
-			if eachRelatedTag not in tagList:
-				tagList.append(eachRelatedTag)
-
-	### Look for four games that are most affliated with the tags ###
-	# Create a recommendation list
-	rcmdList = []
-	# Create and initialize a dictionary for similarity count
-	similarity_dic = {}
-	gameList = Game.objects.all()
-	for eachGame in gameList:
-		similarity_dic[eachGame] = 0
-	# Start counting
-	for eachTag in tagList:
-		for eachGame in eachTag.game.all():
-			similarity_dic[eachGame] += 1
-	# Sort similarity_dic according to count
-	sorted_tup = sorted(similarity_dic.items(), key=operator.itemgetter(1))
-
+	rcmdList = Recommendation.getRecommendationList(currentUser)
 	#Print Rewards
-	rewards=Reward.objects.get(user=currentUser).amount
+	try:
+		rewards=Reward.objects.get(user=currentUser).amount
+	except :
+		rewardForNewuser=Reward(user=currentUser,amount=18)
+		rewardForNewuser.receiveReward()
+		rewards=rewardForNewuser
 	amountToNextReward = Reward.getAmountToNextReward(currentUser)
-	print(sorted_tup)
-	# Put four games into rcmdList if the game is not yet purchased
-	i = 0
-	while len(rcmdList) < 4:
-		if sorted_tup[len(sorted_tup)-i-1][0] not in purchasedList:
-			rcmdList.append(sorted_tup[len(sorted_tup)-i-1][0])
-		i += 1
-
 	return render(request, 'fume/featured.html', {'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
