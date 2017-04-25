@@ -121,7 +121,8 @@ def addtag(request, game_id):
 def featured(request):
 
 	currentUser = request.user
-	rcmdList = Recommendation.getRecommendationList(currentUser)
+	recmd = Recommendation(userId=currentUser)
+	rcmdList = recmd.getRecommendationList()
 	#Print Rewards
 	try:
 		rewards=Reward.objects.get(user=currentUser).amount
