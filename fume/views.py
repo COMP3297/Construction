@@ -125,7 +125,7 @@ def featured(request):
 	#Print Rewards
 	try:
 		rewards=Reward.objects.get(user=currentUser).amount
-	except :
+	except:
 		rewardForNewuser=Reward(user=currentUser,amount=18)
 		rewardForNewuser.receiveReward()
 		rewards=rewardForNewuser

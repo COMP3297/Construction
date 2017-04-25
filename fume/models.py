@@ -166,6 +166,7 @@ class Recommendation(models.Model):
 				rcmdList.append(sorted_tup[len(sorted_tup)-i-1][0])
 			i += 1
 		return rcmdList
+
 class FeaturedGame(models.Model): #class to maintain the list of featured games
     games=[]              # always maintain 4 games
     def getFeaturedGame(self):
