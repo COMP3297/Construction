@@ -126,9 +126,10 @@ def featured(request):
 	#Print Rewards
 	try:
 		rewards=Reward.objects.get(user=currentUser).amount
+		amountToNextReward = Reward.objects.get(user=currentUser).getAmountToNextReward(currentUser)
 	except :
-		rewardForNewuser=Reward(user=currentUser,amount=18)
+		rewardForNewuser=Reward(user=currentUser,amount=0)
 		rewardForNewuser.receiveReward()
 		rewards=rewardForNewuser
-	amountToNextReward = Reward.getAmountToNextReward(currentUser)
+		amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
 	return render(request, 'fume/featured.html', {'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
