@@ -134,7 +134,8 @@ class Recommendation(models.Model):
 	userId = models.ForeignKey(User)
 	def __str__(self):
 		return self.userId.first_name + self.userId.last_name
-	def getRecommendationList(user):
+	def getRecommendationList(self):
+		user = self.userId
 		### Get a list of tags from user purchase history ###
 		tagList = []
 		print("getting recommendation")
