@@ -115,7 +115,7 @@ class Reward(models.Model):
 	def numberOfReward(user):
 			Reward.objects.all().filter(user=user)
 			return
-	def getAmountToNextReward(user):
+	def getAmountToNextReward(self,user):
 			numberOfReward = Reward.objects.all().count()
 			gameList = getUserPurchaseHistory(user)
 			origin = 100
