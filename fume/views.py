@@ -137,3 +137,18 @@ def featured(request):
 		rewards=rewardForNewuser
 		amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
 	return render(request, 'fume/featured.html', {'ftrList':ftrList,'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
+
+def browse(request):
+	currentUser = request.user
+	tags = Tag.objects.all().filter(creator=currentUser)
+	#imageList = game.getImageList()
+	#image1 = imageList[0]
+	return render(request, 'fume/browse.html', {'tags':tags})
+
+def browseBy(request, tag_id):
+	currentUser = request.user
+	tags = Tag.objects.filter(id=tag_id).all()
+	#imageList = game.getImageList()
+	#image1 = imageList[0]
+	return render(request, 'fume/browse.html', {'tags':tags})
+

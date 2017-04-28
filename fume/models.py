@@ -69,7 +69,8 @@ class Tag(models.Model):
 	game = models.ManyToManyField(Game,blank=True)
 	def __str__(self):
 		return self.tag
-
+	def getGameList(self):
+		return self.game.all()
 
 
 class Platform(models.Model):
