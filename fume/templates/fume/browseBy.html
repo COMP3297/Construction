@@ -63,6 +63,25 @@
 		{% endfor %}
 	</ul>
 	
+	{% for eachTag in tags %}
+		{% for eachGame in eachTag.getGameList %}
+			<div class="clearfix">
+				<div class="gameImage" style="margin-right:10px;
+					margin-bottom: 10px;">
+					<a href="/games/{{eachGame.game_id}}">
+						<img src="{{eachGame.getImageList.0.image.url}}"
+						style="width:100px; height:100px;">
+					</a>
+				</div>
+				<div class="description">
+					<a class="browsedesc" href="/games/{{eachGame.game_id}}">
+						<h4>{{eachGame.game}}</h4>
+					</a>
+					<p class="browsedesc">{{eachGame.gameDescription}}</p>
+				</div>
+			</div>
+		{% endfor %}
+	{% endfor %}
 
     </div>
    </div>		
