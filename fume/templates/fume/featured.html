@@ -73,7 +73,8 @@
 			{% for eachGame in ftrList %}
 				<div class="item {% if forloop.first %} active {% endif %}">
 				 <a href="/games/{{eachGame.game}}"><img src="{{ eachGame.getImageList.0.image.url }}" alt="Slide {{ forloop.counter0 }}">
-				  </a><div class="container">
+				  </a>
+				  <div class="container">
 					<div class="carousel-caption">
 					  <p>{{eachGame.gameDescription}}</p>
 					</div>
