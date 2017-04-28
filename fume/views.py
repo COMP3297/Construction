@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 # Create your views here.
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from fume.models import Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,Recommendation
+from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward
 from fume.forms import LoginForm,NameForm,PlatformForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -119,10 +119,14 @@ def addtag(request, game_id):
 
 @login_required
 def featured(request):
-
 	currentUser = request.user
+	# Get featured game list for general users
+	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
+	ftrList = Game.objects.all().filter(featuredGame=ftr)
+	# Get recommended game list for individual user
 	recmd = Recommendation(userId=currentUser)
 	rcmdList = recmd.getRecommendationList()
+	
 	#Print Rewards
 	try:
 		rewards=Reward.objects.get(user=currentUser).amount
@@ -132,4 +136,4 @@ def featured(request):
 		rewardForNewuser.receiveReward()
 		rewards=rewardForNewuser
 		amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
-	return render(request, 'fume/featured.html', {'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
+	return render(request, 'fume/featured.html', {'ftrList':ftrList,'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
