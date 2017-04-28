@@ -72,13 +72,12 @@
 		  <div class="carousel-inner" role="listbox">
 			{% for eachGame in ftrList %}
 				<div class="item {% if forloop.first %} active {% endif %}">
-				 <a href="/games/{{eachGame.game}}"><img src="{{ eachGame.getImageList.0.image.url }}" alt="Slide {{ forloop.counter0 }}">
-				  </a>
-				  <div class="container">
-					<div class="carousel-caption">
-					  <p>{{eachGame.gameDescription}}</p>
+					<a href="/games/{{eachGame.game_id}}"><img src="{{ eachGame.getImageList.0.image.url }}" alt="Slide {{ forloop.counter0 }}"></a>
+					<div class="container">
+						<div class="carousel-caption">
+					  		<p>{{eachGame.gameDescription}}</p>
+						</div>
 					</div>
-				  </div>
 				</div>
 			{% endfor %}
 		  </div>
@@ -97,7 +96,7 @@
         	<h2>Recommended</h2>
 				{% for eachGame in rcmdList %}
 					<div class="recItem">
-					  <a href="/games/{{eachGame.game}}"><img class="small" src="{{eachGame.getImageList.0.image.url}}" alt=""></a>
+					  <a href="/games/{{eachGame.game_id}}"><img class="small" src="{{eachGame.getImageList.0.image.url}}" alt=""></a>
 					  <div class="text">
 						<h4>{{eachGame.game}}</h4>
 						<p>{{eachGame.gameDescription}}</p>
