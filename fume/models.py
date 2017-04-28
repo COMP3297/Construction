@@ -22,25 +22,14 @@ def getUserPurchaseHistory(user):     #take a user object as argument
 	return gamePurchased
 
 # Create your models here.
-class FeaturedGame(models.Model):		#class to maintain the list of featured games
+
+# Class to maintain the list of featured games
+# There should always be only one instance of this class, "ftr"
+class FeaturedGame(models.Model):
 	title = models.CharField(max_length=200, blank=True, null=True)
-	games = []              				# always maintain 4 games
 	def __str__(self):
 		return self.title or u''
-	def getFeaturedGame(self):
-		if len(games) == 0:
-			allgames = Game.objects.all()
-			games=allgames[0:4:1]      # get 4 default games
-		return games
-	def setFeaturedGame(self,gamelist): # take a list of games as argument
-		amount = len(gamelist)
-		if amount == 0:
-			return
-		elif amount == 4:
-			games = gamelist
-		elif amount < 4:
-			for i in range(amount):
-				games[i] = gamelist[i]
+
 
 class Game(models.Model):
 	game = models.CharField(max_length=200,blank=True, null=True)
@@ -164,7 +153,7 @@ class Recommendation(models.Model):
 				if eachRelatedTag not in tagList:
 					tagList.append(eachRelatedTag)
 
-		### Look for four games that are most affliated with the tags ###
+		### Look for games that are most affliated with the tags ###
 		# Create a recommendation list
 		rcmdList = []
 		# Create and initialize a dictionary for similarity count
@@ -178,14 +167,13 @@ class Recommendation(models.Model):
 				similarity_dic[eachGame] += 1
 		# Sort similarity_dic according to count
 		sorted_tup = sorted(similarity_dic.items(), key=operator.itemgetter(1))
-
-		# Put games into rcmdList if the game is not yet purchased
-		if len(purchasedList) <= 3:
+		# Put at most three games into rcmdList if the game is not yet purchased
+		if len(purchasedList) < 3:
 			numOfRecommendation = len(purchasedList)
 		else:
 			numOfRecommendation = 3
 		i = 0
-		while len(rcmdList) <= numOfRecommendation:
+		while len(rcmdList) < numOfRecommendation:
 			if sorted_tup[len(sorted_tup)-i-1][0] not in purchasedList:
 				rcmdList.append(sorted_tup[len(sorted_tup)-i-1][0])
 			i += 1
