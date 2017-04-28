@@ -90,6 +90,8 @@ class Purchase(models.Model):
 		for gme in games:
 			g = Game.objects.get(game=gme)
 			self.game.add(g)
+	def getGame(self):
+		return self.game
 
 
 class Cart(models.Model):

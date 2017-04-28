@@ -24,6 +24,16 @@ ul{
   margin: 0px auto;
 }
 
+.leftcontainer{
+  float:left;
+  widht:200px;
+}
+
+.rightcontainer{
+  float:left;
+  width: 200px;
+}
+
 .nav{
   padding-bottom: 10px;
 }
