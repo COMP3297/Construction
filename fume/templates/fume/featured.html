@@ -91,12 +91,7 @@
 		<!-- ==================================================================================== -->
 		<!-- =================================== Carousel ======================================= -->
 		<!-- ==================================================================================== -->
-
-		<div class="smallFeatured">
-		{% for eachGame in ftrList %}
-			<a href="/games/{{eachGame.game}}"><img class="small" src="{{eachGame.getImageList.0.image.url}}" alt=""></a>
-		{% endfor %}
-		</div>
+		
 		<div class="recommended">
         	<h2>Recommended</h2>
 				{% for eachGame in rcmdList %}
