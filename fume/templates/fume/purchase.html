@@ -42,6 +42,7 @@
             <h3 class="name">Name: {{ gme.game }}</h3>
             <h4 class="price">Price: ${{ gme.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
+            
           </div>
           {% endfor %}
 
@@ -76,7 +77,7 @@
         <form action="/purchaseAll" method="post">
           {% csrf_token %}
           {{ form }}
-          
+
           <input class="purchaseButton" type="submit" value="Purchase">
         </form>
       </div>

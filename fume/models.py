@@ -21,7 +21,12 @@ def getUserPurchaseHistory(user):     #take a user object as argument
 					break
 		i += 1
 	return gamePurchased
-
+def getGamePurchaseStatus(user,game):
+	purchasedGameList = getUserPurchaseHistory(user)
+	for purchasedGame in purchasedGameList:
+		if game == purchasedGame:
+			return True
+	return False
 # Create your models here.
 
 # Class to maintain the list of featured games
@@ -92,8 +97,20 @@ class Purchase(models.Model):
 		for gme in games:
 			g = Game.objects.get(game=gme)
 			self.game.add(g)
+
+
 	def getGame(self):
 		return self.game
+	def getSpentAmount(user):
+		amount = 0
+		try:
+			purchased = list(Purchase.objects.filter(userId=user).all())
+			for p in purchased:
+				for g in p.game.all():
+					amount += g.price
+		except:
+			amount = 0
+		return amount
 
 
 class Cart(models.Model):
@@ -116,25 +133,36 @@ class Cart(models.Model):
 		for g in games:
 			self.game.remove(g)
 
+	def deleteItem(self,game_id):
+		theGame = Game.objects.get(game_id=game_id)
+		self.game.remove(theGame)
+
 class Reward(models.Model):
 	user = models.ForeignKey(User,blank=True,null=True)
 	timeReceived = models.DateTimeField(blank=True, null=True)
+	expirationDate = models.DateTimeField(blank=True,null=True)
 	amount = models.DecimalField(max_digits=5, decimal_places=2,blank=True, null=True)
 
 	def receiveReward(self):                    # to record the time when the reward is received
 			self.timeReceived = timezone.now()
+			self.expirationDate = timeReceived + timedelta(days=120)
 			self.save()
 	def numberOfReward(user):
-			Reward.objects.all().filter(user=user)
-			return
-	def getAmountToNextReward(self,user):
-			numberOfReward = Reward.objects.all().count()
-			gameList = getUserPurchaseHistory(user)
-			origin = 100
-			spent = 0
-			for game in gameList:
-				spent += game.price
-			return origin - spent%100
+			count = Reward.objects.all().filter(user=user).count()
+			return count
+	def getAmountToNextReward(user):   # get the amount to next reward
+			spent = Purchase.getSpentAmount(user)
+			spent = int(spent)
+			return 100-(spent+18)%100
+	def updateReward(currentUser):  # update the reward when purchase
+		spent = Purchase.getSpentAmount(currentUser)
+	def useReward(self,amount): # use the reward and change the amountUseds
+		self.delete()
+	def getAllRewards(user):
+		rewardList = Reward.objects.filter(user=user).all()
+		rewardList = sorted(rewardList,key=lambda e:e.timeReceived,reverse=True)
+		return rewardList
+
 
 
 
@@ -193,4 +221,3 @@ class Recommendation(models.Model):
 			while eachGamePurchased in rcmdList:
 				rcmdList.remove(eachGamePurchased)
 		return rcmdList
-

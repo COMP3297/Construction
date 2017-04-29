@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 # Create your views here.
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward
+from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,getGamePurchaseStatus
 from fume.forms import LoginForm,NameForm,PlatformForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
@@ -24,19 +24,21 @@ def signup(request):
 			raw_password = form.cleaned_data.get('password1')
 			user = authenticate(username=username, password=raw_password)
 			login(request, user)
-			return redirect('home')
+			return redirect('featured')
 	else:
 		form = SignUpForm()
 	return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
 def games(request, game_id):
+	currentUser = request.user
 	game = Game.objects.get(game_id=game_id)
 	tags = Tag.objects.filter(game=game).all()
 	imageList = game.getImageList()
 	image1 = imageList[0]
 	image2 = imageList[1]
-	return render(request, 'fume/gamePage.html', {'tag_id':game_id, 'tags':tags,'game':game,'image1':image1,'image2':image2})
+	purchased = getGamePurchaseStatus(currentUser,game)
+	return render(request, 'fume/gamePage.html', {'tag_id':game_id, 'tags':tags,'game':game,'image1':image1,'image2':image2, 'purchased':purchased})
 
 @login_required
 def purchase(request, game_id):
@@ -83,7 +85,7 @@ def tagedit(request, game_id):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'fume/featured.html',{})
 
 @login_required
 def addtag(request, game_id):
@@ -117,39 +119,42 @@ def addtag(request, game_id):
 	else:
 		return redirect('games',game_id=game_id)
 
-@login_required
+
 def featured(request):
 	currentUser = request.user
 	# Get featured game list for general users
 	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
-	# Get recommended game list for individual user
-	recmd = Recommendation(userId=currentUser)
-	rcmdList = recmd.getRecommendationList()
-	
-	#Print Rewards
-	try:
-		rewards=Reward.objects.get(user=currentUser).amount
-		amountToNextReward = Reward.objects.get(user=currentUser).getAmountToNextReward(currentUser)
-	except :
-		rewardForNewuser=Reward(user=currentUser,amount=0)
-		rewardForNewuser.receiveReward()
-		rewards=rewardForNewuser
-		amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
+
+	if request.user.is_authenticated():
+		# Get recommended game list for individual user
+		recmd = Recommendation(userId=currentUser)
+		rcmdList = recmd.getRecommendationList()
+
+		#Print Rewards
+		rewards = Reward.numberOfReward(currentUser)
+		amountToNextReward = Reward.getAmountToNextReward(currentUser)
+	else:
+		recmd = None
+		rcmdList = None
+		rewards = None
+		amountToNextReward = None
+
 	return render(request, 'fume/featured.html', {'ftrList':ftrList,'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
 
+@login_required
 def browse(request):
 	currentUser = request.user
 	tags = Tag.objects.all().filter(creator=currentUser)
-	games = Purchase.objects.all().filter(userId=currentUser) 
+	games = Purchase.objects.all().filter(userId=currentUser).all()
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
 	return render(request, 'fume/browse.html', {'tags':tags, 'games':games})
 
+@login_required
 def browseBy(request, tag_id):
 	currentUser = request.user
 	tags = Tag.objects.filter(id=tag_id).all()
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
 	return render(request, 'fume/browseBy.html', {'tags':tags})
-
