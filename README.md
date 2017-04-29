@@ -1,5 +1,5 @@
 
-This is a Django Project for University of Hong Kong course COMP3297 Group BCreative
+This is a Django Project for University of Hong Kong course COMP3297 Group BCreative(Group B)
 
 **The project is based on Python3 version 3.6.0 and the latest Django
 version**
