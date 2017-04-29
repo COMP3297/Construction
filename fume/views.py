@@ -176,7 +176,8 @@ def browse(request):
 @login_required
 def browseBy(request, tag_id):
 	currentUser = request.user
-	tags = Tag.objects.filter(id=tag_id).all()
+	allTags = Tag.objects.all()
+	tag = Tag.objects.filter(id=tag_id)[0]
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
-	return render(request, 'fume/browseBy.html', {'tags':tags})
+	return render(request, 'fume/browseBy.html', {'allTags':allTags, 'tag':tag})
