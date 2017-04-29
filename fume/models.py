@@ -18,7 +18,6 @@ def getUserPurchaseHistory(user):     #take a user object as argument
 				print("already in ")
 			else:
 				gamePurchased.append(theGame)
-
 	return gamePurchased
 
 # Create your models here.
