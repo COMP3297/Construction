@@ -49,7 +49,6 @@ def purchase(request, game_id):
 	print(user)
 	gme_id = game_id
 
-	RewardFormSet = formset_factory(RewardChoosingForm)
 
 	try:
 		this_cart = Cart.objects.get(user = user)
@@ -57,17 +56,25 @@ def purchase(request, game_id):
 		this_cart = Cart(user = user)
 		this_cart.save()
 
+	index=Cart.objects.get(user=user)
+	index=index.game.all().count()
+	rangeList = range(index)
+	RewardFormSet = formset_factory(RewardChoosingForm, extra=index)
+
 	if ( gme_id != "0" ):
 		newgame=Game.objects.get(game_id=gme_id)
 		this_cart.addGame(newgame)
 
 	amount = this_cart.game.all().count()
 	games = this_cart.game.all()
+
+
 	totalAmount = this_cart.getTotal()
 	form = PlatformForm(request.POST)
 	RewardFormSet = formset_factory(RewardChoosingForm,extra=amount)
 	formset = RewardFormSet()
 	rewardAmount = Reward.numberOfReward(user)
+
 
 	totalreward = Reward.numberOfReward(request.user)
 	return render(request, 'fume/purchase.html', {'games': games,'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'totalreward':totalreward})
@@ -89,6 +96,7 @@ def calculatePrice(request, amount):
 			return redirect('purchase', 0)   #{'total':total,'choice':rewardchoice}
 	else:
 		formset = RewardChoosingForm()
+
 
 
 def deleteGame(request, game_id, cart_id):

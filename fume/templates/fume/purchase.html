@@ -37,6 +37,7 @@
 
         <div class="items">
 
+
           {% for gme in games %}
           <div class="item clearfix">
             <h3 class="name">Name: {{ gme.game }}</h3>
@@ -44,10 +45,11 @@
             <h4 class="amount">Amount: 1</h4>
             <a class="delete" href="/deleteGame/{{gme.game_id}}/{{cart.id}}">Remove from Cart</a>
 
+
           </div>
           {% endfor %}
 
-        </div>
+
 
         <h3 class="gameTotal">Game Price total is: ${{totalAmount}}</h3>
       </div>
