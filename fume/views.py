@@ -132,14 +132,8 @@ def featured(request):
 		rcmdList = recmd.getRecommendationList()
 
 		#Print Rewards
-		try:
-			rewards=Reward.objects.get(user=currentUser).amount
-			amountToNextReward = Reward.objects.get(user=currentUser).getAmountToNextReward(currentUser)
-		except :
-			rewardForNewuser=Reward(user=currentUser,amount=0)
-			rewardForNewuser.receiveReward()
-			rewards=rewardForNewuser
-			amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
+		rewards = Reward.getRewardForUser(currentUser)
+		amountToNextReward = Reward.getAmountToNextReward(currentUser)
 	else:
 		recmd = None
 		rcmdList = None
