@@ -73,9 +73,20 @@ def purchaseAll(request):
 	platformObj = Platform.objects.get(PlatformName=platform)
 	ptime = datetime.now()
 	newPurchase = Purchase(pTime=ptime,userId=user,platform=platformObj)
+	oldspent = Purchase.getSpentAmount(user)
+	neededAmount = Reward.getAmountToNextReward(user)
 	newPurchase.save()
 	newPurchase.addGame(cart)
-
+	newspent = Purchase.getSpentAmount(user)
+	if newspent - oldspent - neededAmount > 0:
+		r = Reward(user=user,amount=1)
+		r.receiveReward()
+	newRewardAmount = ((newspent-oldspent) - neededAmount)/100
+	newRewardAmount = int(newRewardAmount)
+	if newRewardAmount > 0:
+		for i in range(newRewardAmount):
+			r = Reward(user=user,amount=1)
+			r.receiveReward()
 	cart.clearCart()
 	return redirect('featured')
 
@@ -122,6 +133,7 @@ def addtag(request, game_id):
 
 def featured(request):
 	currentUser = request.user
+	print(Reward.getAllRewards(currentUser))
 	# Get featured game list for general users
 	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
