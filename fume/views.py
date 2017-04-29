@@ -5,12 +5,13 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,getGamePurchaseStatus
-from fume.forms import LoginForm,NameForm,PlatformForm
+from fume.forms import LoginForm,NameForm,PlatformForm,RewardChoosingForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 from fume.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
+from django.forms import formset_factory
 
 
 
@@ -62,9 +63,17 @@ def purchase(request, game_id):
 	games = this_cart.game.all()
 	totalAmount = this_cart.getTotal()
 	form = PlatformForm(request.POST)
+	RewardFormSet = formset_factory(RewardChoosingForm,extra=amount)
+	formset = RewardFormSet()
 	rewardAmount = Reward.numberOfReward(user)
+	ran = []
+	i = 0
+	for f in formset:
+		ran.append(games[i])
+		ran.append(f.as_table())
+		i= i + 1
 	return render(request, 'fume/purchase.html', {'games': games,
-'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount})
+'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'range':ran})
 
 def deleteGame(request, game_id, cart_id):
 	thiscart=Cart.objects.get(id=cart_id)
@@ -77,9 +86,11 @@ def purchaseAll(request):
 	print(user)
 	cart = Cart.objects.get(user=user)
 	game = cart.getGameList()
+
 	form = PlatformForm(request.POST)
 	platform = form['platform'].data
 	print(platform)
+
 	platformObj = Platform.objects.get(PlatformName=platform)
 	ptime = datetime.now()
 	newPurchase = Purchase(pTime=ptime,userId=user,platform=platformObj)
