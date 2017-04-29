@@ -138,7 +138,6 @@ def featured(request):
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
 	
 	if request.user.is_authenticated():
-		neededAmount = Reward.getAmountToNextReward(user)
 
 		# Get recommended game list for individual user
 		recmd = Recommendation(userId=currentUser)
