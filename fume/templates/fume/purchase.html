@@ -42,7 +42,7 @@
             <h3 class="name">Name: {{ gme.game }}</h3>
             <h4 class="price">Price: ${{ gme.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
-            
+
           </div>
           {% endfor %}
 
@@ -57,7 +57,7 @@
         <div class="rewardStatus">
           <div class="reward clearfix">
             <h3>Reward Status</h3>
-            <h4 class="rewardNotice">You have 3 rewards</h4>
+            <h4 class="rewardNotice">You have {{rewardAmount}} rewards</h4>
             <h4 class="rewardAsk">How many rewards do you want to use?</h4>
             <h4 class="enterReward">Enter reward amount</h4>
             <input class="rewardInput" type="text" name="reward" value="0">

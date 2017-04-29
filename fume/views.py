@@ -58,8 +58,8 @@ def purchase(request, game_id):
 	games = this_cart.game.all()
 	totalAmount = this_cart.getTotal()
 	form = PlatformForm(request.POST)
-
-	return render(request, 'fume/purchase.html', {'games': games, 'amount': amount, 'totalAmount': totalAmount,"form":form})
+	rewardAmount = Reward.numberOfReward()
+	return render(request, 'fume/purchase.html', {'games': games, 'amount': amount, 'totalAmount': totalAmount,"form":form,'rewardAmount':rewardAmount})
 
 @login_required
 def purchaseAll(request):
@@ -133,12 +133,13 @@ def addtag(request, game_id):
 
 def featured(request):
 	currentUser = request.user
-	print(Reward.getAllRewards(currentUser))
 	# Get featured game list for general users
 	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
 
 	if request.user.is_authenticated():
+		neededAmount = Reward.getAmountToNextReward(user)
+
 		# Get recommended game list for individual user
 		recmd = Recommendation(userId=currentUser)
 		rcmdList = recmd.getRecommendationList()
