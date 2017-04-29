@@ -108,7 +108,7 @@ class Purchase(models.Model):
 					amount += g.price
 		except:
 			amount = 0
-
+		return amount
 
 
 class Cart(models.Model):
@@ -138,41 +138,28 @@ class Cart(models.Model):
 class Reward(models.Model):
 	user = models.ForeignKey(User,blank=True,null=True)
 	timeReceived = models.DateTimeField(blank=True, null=True)
+	expirationDate = models.DateTimeField(blank=True,null=True)
 	amount = models.DecimalField(max_digits=5, decimal_places=2,blank=True, null=True)
 
 	def receiveReward(self):                    # to record the time when the reward is received
 			self.timeReceived = timezone.now()
+			self.expirationDate = timeReceived + timedelta(days=120)
 			self.save()
 	def numberOfReward(user):
-			Reward.objects.all().filter(user=user)
-			return
+			count = Reward.objects.all().filter(user=user).count()
+			return count
 	def getAmountToNextReward(user):   # get the amount to next reward
 			spent = Purchase.getSpentAmount(user)
-			amount = Reward.objects.get(user=user).amount
-
-			if spent ==0 :
-				return 18
-			else:
-				return 100-(amount-int(amount))*100
-	def getRewardForUser(currentUser):    # get the reward amount
-		spent = Purchase.getSpentAmount(currentUser)
-		if spent == 0 :
-			rewardForNewuser=Reward(user=currentUser,amount=0.18)
-			rewardForNewuser.receiveReward()
-			rewards=rewardForNewuser
-			amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
-			return 0
-		else :
-			amount = Reward.objects.get(user=currentUser).amount
-			re = int(amount)
-			return re
+			spent = int(spent)
+			return 100-(spent+18)%100
 	def updateReward(currentUser):  # update the reward when purchase
 		spent = Purchase.getSpentAmount(currentUser)
-	def useReward(self,amountUsed): # use the reward and change the amountUseds
-		self.amount = self.amount - amountUsed
-	def useReward(user,amountUsed): # used to update amount outside the class
-		r = Reward.objects.get(user=user)
-		r.useReward(amountUsed)
+	def useReward(self,amount): # use the reward and change the amountUseds
+		self.delete()
+	def getAllRewards(user):
+		rewardList = Reward.objects.filter(user=user).all()
+		rewardList = sorted(rewardList,key=lambda e:e.timeReceived,reverse=True)
+		return rewardList
 
 
 
