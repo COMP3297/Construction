@@ -24,7 +24,7 @@ def signup(request):
 			raw_password = form.cleaned_data.get('password1')
 			user = authenticate(username=username, password=raw_password)
 			login(request, user)
-			return redirect('home')
+			return redirect('featured')
 	else:
 		form = SignUpForm()
 	return render(request, 'registration/signup.html', {'form': form})
@@ -83,7 +83,7 @@ def tagedit(request, game_id):
 
 @login_required
 def home(request):
-    return render(request, 'home.html')
+    return render(request, 'fume/featured.html',{})
 
 @login_required
 def addtag(request, game_id):
