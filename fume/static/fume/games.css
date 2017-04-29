@@ -24,6 +24,16 @@ ul{
   margin: 0px auto;
 }
 
+.leftcontainer{
+  float:left;
+  widht:200px;
+}
+
+.rightcontainer{
+  float:left;
+  width: 200px;
+}
+
 .nav{
   padding-bottom: 10px;
 }
@@ -60,8 +70,8 @@ ul{
 }
 
 .big{
-  width:100%;
-  heigth:400px;
+  width:650px;
+  height:365px;
 }
 
 .smallImage{
@@ -188,11 +198,6 @@ ul{
   width: 650px;
   display:flex;
   flex-direction: column;
-}
-
-.big{
-  width:100%;
-  heigth:400px;
 }
 
 .smallImage{

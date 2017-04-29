@@ -32,6 +32,11 @@ ul{
   margin: 5px 0px;
 }
 
+.tag{
+  float:left;
+  margin-right: 5px;
+}
+
 .type{
   font-weight: bold;
 }
@@ -117,3 +122,13 @@ ul{
   width: 630px;
   margin-left: 10px;
 }
+
+.gameImage{
+  float:left;
+}
+
+.description{
+  float:left;
+  width: 800px;
+}
+
