@@ -117,27 +117,36 @@ def addtag(request, game_id):
 	else:
 		return redirect('games',game_id=game_id)
 
-@login_required
+
 def featured(request):
 	currentUser = request.user
 	# Get featured game list for general users
 	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
-	# Get recommended game list for individual user
-	recmd = Recommendation(userId=currentUser)
-	rcmdList = recmd.getRecommendationList()
+
+	if request.user.is_authenticated():
+		# Get recommended game list for individual user
+		recmd = Recommendation(userId=currentUser)
+		rcmdList = recmd.getRecommendationList()
+
+		#Print Rewards
+		try:
+			rewards=Reward.objects.get(user=currentUser).amount
+			amountToNextReward = Reward.objects.get(user=currentUser).getAmountToNextReward(currentUser)
+		except :
+			rewardForNewuser=Reward(user=currentUser,amount=0)
+			rewardForNewuser.receiveReward()
+			rewards=rewardForNewuser
+			amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
+	else:
+		recmd = None
+		rcmdList = None
+		rewards = None
+		amountToNextReward = None
 	
-	#Print Rewards
-	try:
-		rewards=Reward.objects.get(user=currentUser).amount
-		amountToNextReward = Reward.objects.get(user=currentUser).getAmountToNextReward(currentUser)
-	except :
-		rewardForNewuser=Reward(user=currentUser,amount=0)
-		rewardForNewuser.receiveReward()
-		rewards=rewardForNewuser
-		amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
 	return render(request, 'fume/featured.html', {'ftrList':ftrList,'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
 
+@login_required
 def browse(request):
 	currentUser = request.user
 	tags = Tag.objects.all().filter(creator=currentUser)
@@ -146,6 +155,7 @@ def browse(request):
 	#image1 = imageList[0]
 	return render(request, 'fume/browse.html', {'tags':tags, 'games':games})
 
+@login_required
 def browseBy(request, tag_id):
 	currentUser = request.user
 	tags = Tag.objects.filter(id=tag_id).all()
