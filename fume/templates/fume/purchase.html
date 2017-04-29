@@ -42,7 +42,7 @@
             <h3 class="name">Name: {{ gme.game }}</h3>
             <h4 class="price">Price: ${{ gme.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
-
+	    <a class="delete" href="/deleteGame/{{gme.game_id}}/{{cart.id}}">Remove from Cart</a>
           </div>
           {% endfor %}
 

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^$', views.featured, name='featured'),
     url(r'^games/(?P<game_id>\d+)/$', views.games, name='games'),
     url(r'^purchase/(?P<game_id>\d+)/$', views.purchase, name='purchase'),
+    url(r'^deleteGame/(?P<game_id>\d+)/(?P<cart_id>\d+)/$', views.deleteGame, name='deleteGame'),
     url(r'^purchaseAll$', views.purchaseAll, name='purchaseAll'),
     url(r'^browse/$', views.browse, name='browse'),
     url(r'^browse/(?P<tag_id>\d+)/$', views.browseBy, name='browseBy'),

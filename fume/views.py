@@ -44,22 +44,32 @@ def games(request, game_id):
 def purchase(request, game_id):
 	print("purchasing")
 	user_id=request.user
-
-	newgame=Game.objects.get(game_id=game_id)
 	user = request.user
 	print(user)
+	gme_id = game_id
+
 	try:
 		this_cart = Cart.objects.get(user = user)
 	except:
 		this_cart = Cart(user = user)
 		this_cart.save()
-	this_cart.addGame(newgame)
+
+	if ( gme_id != "0" ):
+		newgame=Game.objects.get(game_id=gme_id)
+		this_cart.addGame(newgame)
+
 	amount = this_cart.game.all().count()
 	games = this_cart.game.all()
 	totalAmount = this_cart.getTotal()
 	form = PlatformForm(request.POST)
-	rewardAmount = Reward.numberOfReward(user_id)
-	return render(request, 'fume/purchase.html', {'games': games, 'amount': amount, 'totalAmount': totalAmount,"form":form,'rewardAmount':rewardAmount})
+	rewardAmount = Reward.numberOfReward(user)
+	return render(request, 'fume/purchase.html', {'games': games,
+'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount})
+
+def deleteGame(request, game_id, cart_id):
+	thiscart=Cart.objects.get(id=cart_id)
+	thiscart.deleteItem(game_id)
+	return redirect('purchase', 0)
 
 @login_required
 def purchaseAll(request):
