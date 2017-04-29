@@ -2,6 +2,7 @@
 from django.shortcuts import render,redirect
 
 # Create your views here.
+from django import forms
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,getGamePurchaseStatus
@@ -12,8 +13,6 @@ from datetime import datetime
 from fume.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-
-
 
 
 def signup(request):
@@ -49,6 +48,8 @@ def purchase(request, game_id):
 	print(user)
 	gme_id = game_id
 
+	RewardFormSet = formset_factory(RewardChoosingForm)
+
 	try:
 		this_cart = Cart.objects.get(user = user)
 	except:
@@ -73,7 +74,9 @@ def purchase(request, game_id):
 		ran.append(f.as_table())
 		i= i + 1
 	return render(request, 'fume/purchase.html', {'games': games,
+
 'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'range':ran})
+
 
 def deleteGame(request, game_id, cart_id):
 	thiscart=Cart.objects.get(id=cart_id)
@@ -159,7 +162,6 @@ def featured(request):
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
 
 	if request.user.is_authenticated():
-
 		# Get recommended game list for individual user
 		recmd = Recommendation(userId=currentUser)
 		rcmdList = recmd.getRecommendationList()
@@ -178,7 +180,7 @@ def featured(request):
 @login_required
 def browse(request):
 	currentUser = request.user
-	tags = Tag.objects.all().filter(creator=currentUser)
+	tags = Tag.objects.all()
 	games = Purchase.objects.all().filter(userId=currentUser).all()
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
@@ -187,7 +189,8 @@ def browse(request):
 @login_required
 def browseBy(request, tag_id):
 	currentUser = request.user
-	tags = Tag.objects.filter(id=tag_id).all()
+	allTags = Tag.objects.all()
+	tag = Tag.objects.filter(id=tag_id)[0]
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
-	return render(request, 'fume/browseBy.html', {'tags':tags})
+	return render(request, 'fume/browseBy.html', {'allTags':allTags, 'tag':tag})

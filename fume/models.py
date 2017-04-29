@@ -100,8 +100,6 @@ class Purchase(models.Model):
 		for gme in games:
 			g = Game.objects.get(game=gme)
 			self.game.add(g)
-
-
 	def getGame(self):
 		return self.game
 	def getSpentAmount(user):
@@ -135,7 +133,6 @@ class Cart(models.Model):
 		games = self.game.all()
 		for g in games:
 			self.game.remove(g)
-
 	def deleteItem(self,game_id):
 		theGame = Game.objects.get(game_id=game_id)
 		self.game.remove(theGame)
@@ -145,7 +142,6 @@ class Reward(models.Model):
 	timeReceived = models.DateTimeField(blank=True, null=True)
 	expirationDate = models.DateTimeField(blank=True,null=True)
 	amount = models.DecimalField(max_digits=5, decimal_places=2,blank=True, null=True)
-
 	def receiveReward(self):                    # to record the time when the reward is received
 			self.timeReceived = datetime.today()
 			self.expirationDate = self.timeReceived + timedelta(days=120)
@@ -169,7 +165,6 @@ class Reward(models.Model):
 		return str(self.expirationDate)
 
 
-
 class Administrator(models.Model):
 	adminID = models.CharField(max_length=200)
 
@@ -179,7 +174,6 @@ class Recommendation(models.Model):
 		return self.userId.first_name + self.userId.last_name
 	def getRecommendationList(self):
 		user = self.userId
-		
 		# Call the function to get purchase history (at most three recently purchased games)
 		purchasedList = getUserPurchaseHistory(user)
 		# Create a recommendation list
