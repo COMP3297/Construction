@@ -50,7 +50,7 @@
        	 		<div class="tags">
           		<ul class="tagging">
             		{% for tag in tags %}
-              			<li class="tag"><a href="#">{{tag.tag}}</a></li>
+              			<li class="tag"><a href="/browse/{{tag.id}}">{{tag.tag}}</a></li>
             		{% endfor %}
 					{% if purchased %}
 						<li class="tag addB"><a href="/tag/{{tag_id}}"><img id="addbutton" src="{% static "fume/addbutton.jpg" %}" alt=""></a></li>

@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>Purchase</title>
   {% load static %}
   <link rel="stylesheet" type="text/css" href="{% static "fume/purchase.css" %}" />
 
@@ -31,7 +31,7 @@
 
     <div class="container">
       <div class="smallContainer clearfix">
-
+	
         <h2>Cart</h2>
         <h3>There are {{amount}} games in your cart</h3>
 
@@ -42,7 +42,7 @@
             <h3 class="name">Name: {{ gme.game }}</h3>
             <h4 class="price">Price: ${{ gme.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
-            
+	    <a class="delete" href="/deleteGame/{{gme.game_id}}/{{cart.id}}">Remove from Cart</a>
           </div>
           {% endfor %}
 
@@ -57,7 +57,7 @@
         <div class="rewardStatus">
           <div class="reward clearfix">
             <h3>Reward Status</h3>
-            <h4 class="rewardNotice">You have 3 rewards</h4>
+            <h4 class="rewardNotice">You have {{rewardAmount}} rewards</h4>
             <h4 class="rewardAsk">How many rewards do you want to use?</h4>
             <h4 class="enterReward">Enter reward amount</h4>
             <input class="rewardInput" type="text" name="reward" value="0">
@@ -65,7 +65,6 @@
         </div>
       </div>
     </div>
-
 
     <div class="container">
       <div class="smallContainer clearfix">

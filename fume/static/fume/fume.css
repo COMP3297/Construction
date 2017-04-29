@@ -66,7 +66,25 @@ ul{
 }
 
 .leftcontainer{
-  width: 100px;
+  width: 150px;
+  position: relative;
+}
+
+.rightcontainer{
+  width:1000px;
+}
+
+td{
+  margin: 10px;
+}
+
+.rewardListC{
+  position:absolute;
+  left:-200px;
+}
+
+.rewardList{
+
 }
 
 .featured{
@@ -102,6 +120,30 @@ ul{
   height:130px;
 }
 
+.platforms{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.platforms2{
+  float:left;
+}
+
+.platformimage{
+  width: 50px;
+  height: 50px;
+}
+
+.platformimage2{
+  width:24px;
+  height:24px;
+}
+
+.gameprice{
+ width: 100px; 
+}
+
 .recommended{
   display:flex;
   flex-direction: column;
@@ -122,6 +164,7 @@ ul{
   width: 630px;
   margin-left: 10px;
 }
+
 
 .gameImage{
   float:left;

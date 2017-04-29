@@ -59,8 +59,21 @@
         <li class="item"><a href="#">New Games</a></li>
         <li class="item"><a href="#">Early Access</a></li>
       </ul>
-      <div>
-        <h5>You have {{rewards}} Rewards.</h5>
+      <div class="rewardListC">
+	<h4><b>Your rewards:</b></h4>
+	<table class="rewardList">
+	<tr>
+		<th>Award Date</th>
+		<th>Expiry Date</th>
+	</tr>
+	{% for reward in rewards %}
+		<tr>
+			<td>{{reward.timeReceived}}</td>
+			<td>{{reward.expirationDate}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	<h4>You need {{ amountToNextReward }} more spending to redeem a new reward</h4>
       </div>
     </div>
 
@@ -84,6 +97,16 @@
 					<div class="container">
 						<div class="carousel-caption">
 					  		<p>{{eachGame.gameDescription}}</p>
+							<div class="platforms">
+							<img
+class="platformimage" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png">
+							<img
+class="platformimage" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/2000px-Windows_logo_-_2012.svg.png">
+							<img
+class="platformimage" src="http://www.vectorsland.com/imgd/l36405-apple-mac-logo-64481.png">
+							<h4 class="gameprice">Price:
+{{eachGame.price}}</h4>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -108,6 +131,17 @@
 					  <div class="text">
 						<h4>{{eachGame.game}}</h4>
 						<p>{{eachGame.gameDescription}}</p>
+						<div class="platforms2">
+							<img class="platformimage2" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png">
+							<img class="platformimage2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/2000px-Windows_logo_-_2012.svg.png">
+							<img class="platformimage2" src="http://www.vectorsland.com/imgd/l36405-apple-mac-logo-64481.png">
+							<h5 class="gameprice">Price:{{eachGame.price}}</h5>
+						</div>
+						<ul class="tagbrowse">
+							{% for tag in eachGame.tag_set.all %}
+              					<li class="tag"><a href="/browse/{{tag.id}}">{{tag.tag}}</a></li>
+            				{% endfor %}
+						</ul>
 					  </div>
 					</div>
 				{% endfor %}
