@@ -8,18 +8,19 @@ from datetime import datetime,timedelta
 
 def getUserPurchaseHistory(user):     #take a user object as argument
 	#this function woudl return a list of game objects
-	purchases = Purchase.objects.filter(userId=user).all()
+	purchases = Purchase.objects.all().filter(userId=user).order_by('-pTime')
 	purchaselist = list(purchases)
 	gamePurchased = []
-	for p in purchaselist:
-		games = p.game.all()
+	i = 0
+	while len(gamePurchased) < 3 and i < len(purchaselist):
+		games = purchaselist[i].game.all()
 		for g in games:
 			theGame = Game.objects.get(game=g)
-			if theGame in gamePurchased:
-				print("already in ")
-			else:
+			if theGame not in gamePurchased:
 				gamePurchased.append(theGame)
-
+				if len(gamePurchased) == 3:
+					break
+		i += 1
 	return gamePurchased
 def getGamePurchaseStatus(user,game):
 	purchasedGameList = getUserPurchaseHistory(user)
@@ -43,6 +44,7 @@ class Game(models.Model):
 	game_id = models.CharField(max_length=200,blank=True, null=True)
 	gameDescription = models.TextField(blank=True)
 	featuredGame = models.ForeignKey(FeaturedGame,blank=True, null=True)
+	rTime = models.DateTimeField(auto_now = False, auto_now_add = False)
 	def getImageList(self):
 		images = GameImage.objects.filter(game=self).all()
 		return images
@@ -85,7 +87,7 @@ class Platform(models.Model):
 		return self.PlatformName
 
 class Purchase(models.Model):
-	pTime = models.CharField(max_length=100,blank=True,null=True)
+	pTime = models.DateTimeField(auto_now = False, auto_now_add = False)
 	userId = models.ForeignKey(User,blank=True, null=True)
 	game = models.ManyToManyField(Game,blank=True)
 	platform = models.ForeignKey(Platform,blank=True,null=True)
@@ -175,39 +177,49 @@ class Recommendation(models.Model):
 		return self.userId.first_name + self.userId.last_name
 	def getRecommendationList(self):
 		user = self.userId
-		### Get a list of tags from user purchase history ###
-		tagList = []
-		print("getting recommendation")
-		# Call the function to get purchase history
+		
+		# Call the function to get purchase history (at most three recently purchased games)
 		purchasedList = getUserPurchaseHistory(user)
-		# Put all the related tags into tagList
-		for eachPurchasedGame in purchasedList:
-			for eachRelatedTag in eachPurchasedGame.tag_set.all():
-				if eachRelatedTag not in tagList:
-					tagList.append(eachRelatedTag)
-
-		### Look for games that are most affliated with the tags ###
 		# Create a recommendation list
 		rcmdList = []
-		# Create and initialize a dictionary for similarity count
-		similarity_dic = {}
-		gameList = Game.objects.all()
-		for eachGame in gameList:
-			similarity_dic[eachGame] = 0
-		# Start counting
-		for eachTag in tagList:
-			for eachGame in eachTag.game.all():
-				similarity_dic[eachGame] += 1
-		# Sort similarity_dic according to count
-		sorted_tup = sorted(similarity_dic.items(), key=operator.itemgetter(1))
-		# Put at most three games into rcmdList if the game is not yet purchased
-		if len(purchasedList) < 3:
-			numOfRecommendation = len(purchasedList)
-		else:
-			numOfRecommendation = 3
-		i = 0
-		while len(rcmdList) < numOfRecommendation:
-			if sorted_tup[len(sorted_tup)-i-1][0] not in purchasedList:
-				rcmdList.append(sorted_tup[len(sorted_tup)-i-1][0])
-			i += 1
+		# Traverse through each targeted game
+		for eachPurchasedGame in purchasedList:
+			# Put all the related tags into tagList
+			tagList = list(eachPurchasedGame.tag_set.all())
+			# Create and initialize a dictionary for similarity count
+			similarity_dic = {}
+			gameList = Game.objects.all()
+			for eachGame in gameList:
+				similarity_dic[eachGame] = 0
+			# Start counting
+			for eachTag in tagList:
+				for eachGame in eachTag.game.all():
+					similarity_dic[eachGame] += 1
+			# Sort similarity_dic according to count
+			sorted_tup = sorted(similarity_dic.items(), key=operator.itemgetter(1))
+			# Exclude the purchased game itself
+			new_sorted_tup = []
+			for tup in sorted_tup:
+				if not tup[0] == eachPurchasedGame:
+					new_sorted_tup.append(tup)
+			# Put the most related games into temp
+			temp = []
+			for eachTup in new_sorted_tup:
+				if eachTup[1] == new_sorted_tup[len(new_sorted_tup)-1][1]:
+					temp.append(eachTup[0])
+			# Put the most recently released game into rcmdList
+			if sorted(temp, key=lambda eachGame: eachGame.rTime, reverse=True)[0] not in rcmdList:
+				rcmdList.append(sorted(temp, key=lambda eachGame: eachGame.rTime, reverse=True)[0])
+		# Check if any purchased game is in rcmdList
+		purchaselist = list(Purchase.objects.all().filter(userId=user))
+		gamePurchased = []
+		for eachPurchase in purchaselist:
+			games = eachPurchase.game.all()
+			for g in games:
+				theGame = Game.objects.get(game=g)
+				if theGame not in gamePurchased:
+					gamePurchased.append(theGame)
+		for eachGamePurchased in gamePurchased:
+			while eachGamePurchased in rcmdList:
+				rcmdList.remove(eachGamePurchased)
 		return rcmdList
