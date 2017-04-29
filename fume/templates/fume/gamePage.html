@@ -22,7 +22,7 @@
           </ul>
         </div>
         <ul class="menu">
-          <li><a href="#">Search</a></li>
+          <li><a href="/browse">Browse</a></li>
           <li><a href="#">Forum</a></li>
           <li><a href="/">Featured</a></li>
         </ul>
@@ -30,66 +30,42 @@
     </div>
 
     <div class="container top">
-      <div class="gameImage">
-        <img class="big" src="{{ image2.image.url }}" alt="">  
-        <div class="smallImage">
-          <img class="small" src="" alt="">
-          <img class="small" src="" alt="">
-          <img class="small" src="" alt="">
-        </div>
-      </div>
 
-      <div class="gameIntro">
-        <img class="introImage" src="{{  image1.image.url }}" alt="">
-        <p class="intro">{{game.gameDescription}}</p>
-        <div class="tags">
-          <ul class="tagging">
-            <li class="tag"><a href="#">RPG</a></li>
-            <li class="tag"><a href="#">Shooting</a></li>
-            <li class="tag"><a href="#">Open World</a></li>
-            {% for tag in tags %}
-              <li class="tag"><a href="#">{{tag.tag}}</a></li>
-            {% endfor %}
-            <li class="tag addB"><a href="/tag/{{tag_id}}"><img id="addbutton" src="{% static "fume/addbutton.jpg" %}" alt=""></a></li>
-          </ul>
-        </div>
-      </div>
     </div>
+    <div class="container">
+    	<div class="leftcontainer">
+      		<div class="gameImage">
+      	  		<img class="big" src="{{ image2.image.url }}" alt="">  
+      		</div>
 
-    <div class="container purchaseC clearfix">
-      <div class="purchase">
-        <a href="/purchase/{{game.game_id}}"><h3 class="purchaseB">Purchase</h3></a>
-      </div>
-      <div class="purchase2">
-        <a href="/purchase/{{game.game_id}}}"><h3 class="purchaseB">Add to Cart</h3></a>
-      </div>
+      		<div class="purchase" style="margin: 10px 5px 5px 5px;">
+        		<a href="/purchase/{{game.game_id}}"><h3 class="purchaseB">Purchase</h3></a>
+      		</div>
+      		<div class="purchase2" style="margin:10px 5px 5px 5px;">
+        		<a href="/purchase/{{game.game_id}}}"><h3 class="purchaseB">Add to Cart</h3></a>
+      		</div>
+    	</div>
+
+    	<div class="rightcontainer" style="margin-left:40px;">
+		<div class="gameIntro">
+        		<img class="introImage" src="{{  image1.image.url }}" alt="">
+        		<p class="intro">{{game.gameDescription}}</p>
+       	 		<div class="tags">
+          		<ul class="tagging">
+            		{% for tag in tags %}
+              			<li class="tag"><a href="#">{{tag.tag}}</a></li>
+            		{% endfor %}
+            		<li class="tag addB"><a href="/tag/{{tag_id}}"><img id="addbutton" src="{% static "fume/addbutton.jpg" %}" alt=""></a></li>
+          		</ul>
+        		</div>
+      		</div>
+    	</div>
     </div>
 
     <div class="container">
       <div class="comments">
-        <div class="comment">
-          <h4 class="title">GTA 5 is so Violent</h4>
-          <p class="content">GTA has so many violent contents, so I don't want to play any more</p>
-          <h5 class="userID">Written by hello1</h5>
-        </div>
+    
 
-        <div class="comment">
-          <h4 class="title">GTA 5 is so Violent</h4>
-          <p class="content">GTA has so many violent contents, so I don't want to play any more</p>
-          <h5 class="userID">Written by gogo23</h5>
-        </div>
-
-        <div class="comment">
-          <h4 class="title">GTA 5 is so Violent</h4>
-          <p class="content">GTA has so many violent contents, so I don't want to play any more</p>
-          <h5 class="userID">Written by byebye13</h5>
-        </div>
-
-        <div class="comment">
-          <h4 class="title">GTA 5 is so Violent</h4>
-          <p class="content">GTA has so many violent contents, so I don't want to play any more</p>
-          <h5 class="userID">Written by mark1</h5>
-        </div>
       </div>
     </div>
 
