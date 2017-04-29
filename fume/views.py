@@ -79,10 +79,7 @@ def purchase(request, game_id):
 		ran.append(games[i])
 		ran.append(f.as_table())
 		i= i + 1
-	return render(request, 'fume/purchase.html', {'games': games,
-
-
-'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'range':ran})
+	return render(request, 'fume/purchase.html', {'games': games,'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'range':ran})
 
 
 def deleteGame(request, game_id, cart_id):

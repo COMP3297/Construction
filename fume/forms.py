@@ -38,4 +38,4 @@ class RewardChoosingForm(forms.Form):
         (9,'9'),
         (10,'10'),
     ]
-    amount = forms.ChoiceField(choices=RewardAmount)
+    reward_Amount = forms.ChoiceField(choices=RewardAmount)
