@@ -141,7 +141,7 @@ def featured(request):
 def browse(request):
 	currentUser = request.user
 	tags = Tag.objects.all().filter(creator=currentUser)
-	games = Purchase.objects.all().filter(userId=currentUser) 
+	games = Purchase.objects.all().filter(userId=currentUser).all() 
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
 	return render(request, 'fume/browse.html', {'tags':tags, 'games':games})
