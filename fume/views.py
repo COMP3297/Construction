@@ -2,16 +2,17 @@
 from django.shortcuts import render,redirect
 
 # Create your views here.
+from django import forms
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,getGamePurchaseStatus
-from fume.forms import LoginForm,NameForm,PlatformForm
+from fume.forms import LoginForm,NameForm,PlatformForm,RewardChoosingForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from datetime import datetime
 from fume.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
-
+from django.forms import formset_factory
 
 def signup(request):
 	if request.method == 'POST':
@@ -46,8 +47,7 @@ def purchase(request, game_id):
 	print(user)
 	gme_id = game_id
 
-
-
+	RewardFormSet = formset_factory(RewardChoosingForm)
 
 	try:
 		this_cart = Cart.objects.get(user = user)
@@ -65,7 +65,7 @@ def purchase(request, game_id):
 	form = PlatformForm(request.POST)
 	rewardAmount = Reward.numberOfReward(user)
 	return render(request, 'fume/purchase.html', {'games': games,
-'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount})
+'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart':this_cart,'formset':RewardFormSet,'rewardAmount':rewardAmount})
 
 def deleteGame(request, game_id, cart_id):
 	thiscart=Cart.objects.get(id=cart_id)
