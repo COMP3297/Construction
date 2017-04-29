@@ -21,12 +21,14 @@ def getUserPurchaseHistory(user):     #take a user object as argument
 					break
 		i += 1
 	return gamePurchased
+
 def getGamePurchaseStatus(user,game):
 	purchasedGameList = getUserPurchaseHistory(user)
 	for purchasedGame in purchasedGameList:
 		if game == purchasedGame:
 			return True
 	return False
+
 # Create your models here.
 
 # Class to maintain the list of featured games

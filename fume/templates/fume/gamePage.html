@@ -41,9 +41,6 @@
       		<div class="purchase" style="margin: 10px 5px 5px 5px;">
         		<a href="/purchase/{{game.game_id}}"><h3 class="purchaseB">Purchase</h3></a>
       		</div>
-      		<div class="purchase2" style="margin:10px 5px 5px 5px;">
-        		<a href="/purchase/{{game.game_id}}}"><h3 class="purchaseB">Add to Cart</h3></a>
-      		</div>
     	</div>
 
     	<div class="rightcontainer" style="margin-left:40px;">
@@ -55,7 +52,9 @@
             		{% for tag in tags %}
               			<li class="tag"><a href="#">{{tag.tag}}</a></li>
             		{% endfor %}
+					{% if purchased %}
             		<li class="tag addB"><a href="/tag/{{tag_id}}"><img id="addbutton" src="{% static "fume/addbutton.jpg" %}" alt=""></a></li>
+					{% endif %}
           		</ul>
         		</div>
       		</div>
