@@ -4,6 +4,7 @@ from django.db import models
 from PIL import Image
 import operator
 from django.utils import timezone
+from datetime import datetime,timedelta
 
 def getUserPurchaseHistory(user):     #take a user object as argument
 	#this function woudl return a list of game objects
@@ -142,8 +143,8 @@ class Reward(models.Model):
 	amount = models.DecimalField(max_digits=5, decimal_places=2,blank=True, null=True)
 
 	def receiveReward(self):                    # to record the time when the reward is received
-			self.timeReceived = timezone.now()
-			self.expirationDate = timeReceived + timedelta(days=120)
+			self.timeReceived = datetime.today()
+			self.expirationDate = self.timeReceived + timedelta(days=120)
 			self.save()
 	def numberOfReward(user):
 			count = Reward.objects.all().filter(user=user).count()
@@ -158,9 +159,10 @@ class Reward(models.Model):
 		self.delete()
 	def getAllRewards(user):
 		rewardList = Reward.objects.filter(user=user).all()
-		rewardList = sorted(rewardList,key=lambda e:e.timeReceived,reverse=True)
+		rewardList = sorted(rewardList,key=lambda e:e.timeReceived,reverse=False)
 		return rewardList
-
+	def __str__(self):
+		return str(self.expirationDate)
 
 
 
