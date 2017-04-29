@@ -9,6 +9,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.featured, name='featured'),
     url(r'^games/(?P<game_id>\d+)/$', views.games, name='games'),
+    url(r'^calculatePrice/(?P<amount>\d+)/$', views.calculatePrice, name='calculatePrice'),
     url(r'^purchase/(?P<game_id>\d+)/$', views.purchase, name='purchase'),
     url(r'^deleteGame/(?P<game_id>\d+)/(?P<cart_id>\d+)/$', views.deleteGame, name='deleteGame'),
     url(r'^purchaseAll$', views.purchaseAll, name='purchaseAll'),

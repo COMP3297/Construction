@@ -37,18 +37,12 @@
 
         <div class="items">
 
-          {% for i in range %}
-          {% if i.price > 0 %}
+          {% for gme in games %}
           <div class="item clearfix">
-            <h3 class="name">Name: {{ i.game }}</h3>
-            <h4 class="price">Price: ${{ i.price }}</h4>
+            <h3 class="name">Name: {{ gme.game }}</h3>
+            <h4 class="price">Price: ${{ gme.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
-
-            <a class="delete" href="/deleteGame/{{i.game_id}}/{{cart.id}}">Remove from Cart</a>
-          {% else %}
-            {{i}}
-          {% endif %}
-
+            <a class="delete" href="/deleteGame/{{gme.game_id}}/{{cart.id}}">Remove from Cart</a>
 
           </div>
           {% endfor %}
@@ -63,6 +57,19 @@
       <div class="smallContainer clearfix">
         <div class="rewardStatus">
           <div class="reward clearfix">
+            <form action="/calculatePrice/{{amount}}/" method="post">
+              {% csrf_token %}
+              {{ formset.management_form }}
+              {% for form in formset %}
+
+              {{ form.as_p }}
+
+              {% endfor %}
+
+              <input type="submit" value="Submit">
+
+            </form>
+
             <h3>Reward Status</h3>
             <h4 class="rewardNotice">You have {{rewardAmount}} rewards</h4>
             <h4 class="rewardAsk">How many rewards do you want to use?</h4>

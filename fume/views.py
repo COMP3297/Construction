@@ -42,6 +42,7 @@ def games(request, game_id):
 
 @login_required
 def purchase(request, game_id):
+
 	print("purchasing")
 	user_id=request.user
 	user = request.user
@@ -67,15 +68,27 @@ def purchase(request, game_id):
 	RewardFormSet = formset_factory(RewardChoosingForm,extra=amount)
 	formset = RewardFormSet()
 	rewardAmount = Reward.numberOfReward(user)
-	ran = []
-	i = 0
-	for f in formset:
-		ran.append(games[i])
-		ran.append(f.as_table())
-		i= i + 1
-	return render(request, 'fume/purchase.html', {'games': games,
 
-'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'range':ran})
+	totalreward = Reward.numberOfReward(request.user)
+	return render(request, 'fume/purchase.html', {'games': games,'amount': amount, 'totalAmount': totalAmount,"form":form, 'cart': this_cart,'rewardAmount':rewardAmount,'formset':RewardFormSet,'totalreward':totalreward})
+
+def calculatePrice(request, amount):
+	MemberFormSet = formset_factory(RewardChoosingForm, extra = amount)
+	rewardchoice = []
+	total = 0
+	if request.method == 'POST':
+		formset = MemberFormSet(request.POST)
+		if formset.is_valid():
+			cd = formset.cleaned_data
+			for c in cd:
+				print(c)
+				rewardchoice.append(int(c['Reward_amount']))
+				total += int(c['Reward_amount'])
+			filename = 'reward choice'
+
+			return redirect('purchase', 0)   #{'total':total,'choice':rewardchoice}
+	else:
+		formset = RewardChoosingForm()
 
 
 def deleteGame(request, game_id, cart_id):
@@ -87,13 +100,13 @@ def deleteGame(request, game_id, cart_id):
 def purchaseAll(request):
 	user = request.user
 	print(user)
+
 	cart = Cart.objects.get(user=user)
 	game = cart.getGameList()
-
 	form = PlatformForm(request.POST)
 	platform = form['platform'].data
 	print(platform)
-
+	i=1
 	platformObj = Platform.objects.get(PlatformName=platform)
 	ptime = datetime.now()
 	newPurchase = Purchase(pTime=ptime,userId=user,platform=platformObj)
@@ -113,6 +126,10 @@ def purchaseAll(request):
 			r.receiveReward()
 	cart.clearCart()
 	return redirect('featured')
+	filename = 'reward choice'
+	with open(filename,'w') as f:
+		f.write()
+
 
 def tagedit(request, game_id):
 	tag_id=game_id
@@ -120,7 +137,7 @@ def tagedit(request, game_id):
 
 @login_required
 def home(request):
-    return render(request, 'fume/featured.html',{})
+	return render(request, 'fume/featured.html',{})
 
 @login_required
 def addtag(request, game_id):

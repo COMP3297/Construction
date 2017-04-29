@@ -27,6 +27,7 @@ class PlatformForm(forms.Form):
     platform = forms.ChoiceField(choices=PlatformChoice)
 class RewardChoosingForm(forms.Form):
     RewardAmount = [
+        (0,'0'),
         (1,'1'),
         (2,'2'),
         (3,'3'),
@@ -38,4 +39,4 @@ class RewardChoosingForm(forms.Form):
         (9,'9'),
         (10,'10'),
     ]
-    amount = forms.ChoiceField(choices=RewardAmount)
+    Reward_amount = forms.ChoiceField(choices=RewardAmount)
