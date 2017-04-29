@@ -57,7 +57,7 @@
     </div>
     <div class="rightcontainer">
 	<div class="tagbrowse">
-		<h4>Here are the tags that you have made:</h4>
+		<h4>Tags</h4>
 		<ul class="clearfix">
 			{% for eachTag in tags %}
 				<li class="tag item"><a href="/browse/{{eachTag.id}}">{{eachTag}}</a></li>	
@@ -65,7 +65,8 @@
 		</ul>	
 	</div>
 	<div class="historyBrowse">
-		<h4>Below are the games that you have purchased:</h4>
+	{% if games %}
+		<h4>Games that you have purchased:</h4>
 	
 	{% for eachPurchase in games %}
 		{% for eachGame in eachPurchase.game.all %}
@@ -82,11 +83,14 @@
 					<h4>{{eachGame}}</h4>
 				</a>
 				<p class="browsedesc">{{eachGame.gameDescription}}</p>
+				<p class="browsedesc"> Purchased on {{ eachPurchase.pTime|date:"D d M Y H:i" }}</p>
 			</div>
 		</div>
 		{% endfor %}
 	{% endfor %}
-	
+	{% else %}
+		<h4>No purchase history</h4>
+	{% endif %}
 	</div>
 
     </div>

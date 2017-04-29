@@ -31,21 +31,25 @@
 
     <div class="container">
       <div class="smallContainer clearfix">
-	
+
         <h2>Cart</h2>
         <h3>There are {{amount}} games in your cart</h3>
 
         <div class="items">
 
 
-          {% for gme in formset %}
-	
+          {% for i in range %}
+          {% if i.price > 0 %}
           <div class="item clearfix">
-            <h3 class="name">Name: {{ gme.0.game }}</h3>
-            <h4 class="price">Price: ${{ gme.0.price }}</h4>
+            <h3 class="name">Name: {{ i.game }}</h3>
+            <h4 class="price">Price: ${{ i.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
-	    <a class="delete" href="/deleteGame/{{gme.0.game_id}}/{{cart.id}}">Remove from Cart</a>
-	 {{gme.1}}
+
+            <a class="delete" href="/deleteGame/{{i.game_id}}/{{cart.id}}">Remove from Cart</a>
+          {% else %}
+            {{i}}
+          {% endif %}
+
 
           </div>
           {% endfor %}
@@ -80,7 +84,6 @@
         <form action="/purchaseAll" method="post">
           {% csrf_token %}
           {{ form }}
-
           <input class="purchaseButton" type="submit" value="Purchase">
         </form>
       </div>

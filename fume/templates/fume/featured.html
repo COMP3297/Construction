@@ -124,7 +124,7 @@ class="platformimage" src="http://www.vectorsland.com/imgd/l36405-apple-mac-logo
 		<!-- ==================================================================================== -->
 		{% if rcmdList %}
 		<div class="recommended">
-        	<h2>Recommended</h2>
+        	<h2>Recommended for you</h2>
 				{% for eachGame in rcmdList %}
 					<div class="recItem">
 					  <a href="/games/{{eachGame.game_id}}"><img class="small" src="{{eachGame.getImageList.0.image.url}}" alt=""></a>
@@ -132,16 +132,18 @@ class="platformimage" src="http://www.vectorsland.com/imgd/l36405-apple-mac-logo
 						<h4>{{eachGame.game}}</h4>
 						<p>{{eachGame.gameDescription}}</p>
 						<div class="platforms2">
-							<img
-class="platformimage2" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png">
-							<img
-class="platformimage2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/2000px-Windows_logo_-_2012.svg.png">
-							<img
-class="platformimage2" src="http://www.vectorsland.com/imgd/l36405-apple-mac-logo-64481.png">
-							<h5 class="gameprice">Price:
-{{eachGame.price}}</h5>
+							<img class="platformimage2" src="https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png">
+							<img class="platformimage2" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Windows_logo_-_2012.svg/2000px-Windows_logo_-_2012.svg.png">
+							<img class="platformimage2" src="http://www.vectorsland.com/imgd/l36405-apple-mac-logo-64481.png">
+							<h5 class="gameprice">Price: {{eachGame.price}}</h5>
 						</div>
+						<ul class="tagbrowse">
+							{% for tag in eachGame.tag_set.all %}
+              					<li class="tag"><a href="/browse/{{tag.id}}">{{tag.tag}}</a></li>
+            				{% endfor %}
+						</ul>
 					  </div>
+					  
 					</div>
 				{% endfor %}
 		</div>
