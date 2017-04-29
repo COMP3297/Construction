@@ -37,19 +37,19 @@
 
         <div class="items">
 
-
           {% for i in range %}
+          <div class="clearfix">
+	   
           {% if i.price > 0 %}
-          <div class="item clearfix">
             <h3 class="name">Name: {{ i.game }}</h3>
             <h4 class="price">Price: ${{ i.price }}</h4>
             <h4 class="amount">Amount: 1</h4>
 
-            <a class="delete" href="/deleteGame/{{i.game_id}}/{{cart.id}}">Remove from Cart</a>
+            <a class="delete" style="text-decoration:underline" href="/deleteGame/{{i.game_id}}/{{cart.id}}">Remove from Cart</a>
           {% else %}
-	  <div class="clearfix" style="float:right;">
+	    <div class="clearfix" style="float:right;">
             {{i}}
-	  </div>
+	     </div>
           {% endif %}
 
 
