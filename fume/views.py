@@ -133,12 +133,12 @@ def addtag(request, game_id):
 
 def featured(request):
 	currentUser = request.user
-	print(Reward.getAllRewards(currentUser))
 	# Get featured game list for general users
 	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
-
+	
 	if request.user.is_authenticated():
+		print(Reward.getAllRewards(currentUser))
 		# Get recommended game list for individual user
 		recmd = Recommendation(userId=currentUser)
 		rcmdList = recmd.getRecommendationList()

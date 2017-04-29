@@ -53,9 +53,11 @@
               			<li class="tag"><a href="#">{{tag.tag}}</a></li>
             		{% endfor %}
 					{% if purchased %}
-            		<li class="tag addB"><a href="/tag/{{tag_id}}"><img id="addbutton" src="{% static "fume/addbutton.jpg" %}" alt=""></a></li>
+						<li class="tag addB"><a href="/tag/{{tag_id}}"><img id="addbutton" src="{% static "fume/addbutton.jpg" %}" alt=""></a></li>
+						<p>Click to add a tag</p>
 					{% endif %}
           		</ul>
+				
         		</div>
       		</div>
     	</div>
