@@ -101,7 +101,7 @@
 		<!-- ==================================================================================== -->
 		{% if rcmdList %}
 		<div class="recommended">
-        	<h2>Recommended</h2>
+        	<h2>Recommended for you</h2>
 				{% for eachGame in rcmdList %}
 					<div class="recItem">
 					  <a href="/games/{{eachGame.game_id}}"><img class="small" src="{{eachGame.getImageList.0.image.url}}" alt=""></a>

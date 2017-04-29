@@ -157,7 +157,7 @@ def featured(request):
 @login_required
 def browse(request):
 	currentUser = request.user
-	tags = Tag.objects.all().filter(creator=currentUser)
+	tags = Tag.objects.all()
 	games = Purchase.objects.all().filter(userId=currentUser).all()
 	#imageList = game.getImageList()
 	#image1 = imageList[0]
