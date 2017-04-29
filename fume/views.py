@@ -13,8 +13,6 @@ from fume.forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 
 
-
-
 def signup(request):
 	if request.method == 'POST':
 		form = SignUpForm(request.POST)
@@ -47,6 +45,9 @@ def purchase(request, game_id):
 	user = request.user
 	print(user)
 	gme_id = game_id
+
+
+
 
 	try:
 		this_cart = Cart.objects.get(user = user)
