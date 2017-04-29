@@ -20,7 +20,12 @@ def getUserPurchaseHistory(user):     #take a user object as argument
 				gamePurchased.append(theGame)
 
 	return gamePurchased
-
+def getGamePurchaseStatus(user,game):
+	purchasedGameList = getUserPurchaseHistory(user)
+	for purchasedGame in purchasedGameList:
+		if game == purchasedGame:
+			return True
+	return False
 # Create your models here.
 class Game(models.Model):
 	game = models.CharField(max_length=200,blank=True, null=True)
@@ -81,6 +86,18 @@ class Purchase(models.Model):
 		for gme in games:
 			g = Game.objects.get(game=gme)
 			self.game.add(g)
+	def getSpentAmount(user):
+		amount = 0
+		try:
+			purchased = list(Purchase.objects.filter(userId=user).all())
+			for p in purchased:
+				for g in p.game.all():
+					amount += g.price
+		except:
+			amount = 0
+
+
+
 
 
 class Cart(models.Model):
@@ -104,6 +121,10 @@ class Cart(models.Model):
 		for g in games:
 			self.game.remove(g)
 
+	def deleteItem(self,game_id):
+		theGame = Game.objects.get(game_id=game_id)
+		self.game.remove(theGame)
+
 class Reward(models.Model):
 	user = models.ForeignKey(User,blank=True,null=True)
 	timeReceived = models.DateTimeField(blank=True, null=True)
@@ -115,14 +136,34 @@ class Reward(models.Model):
 	def numberOfReward(user):
 			Reward.objects.all().filter(user=user)
 			return
-	def getAmountToNextReward(self,user):
-			numberOfReward = Reward.objects.all().count()
-			gameList = getUserPurchaseHistory(user)
-			origin = 100
-			spent = 0
-			for game in gameList:
-				spent += game.price
-			return origin - spent%100
+	def getAmountToNextReward(user):   # get the amount to next reward
+			spent = Purchase.getSpentAmount(user)
+			amount = Reward.objects.get(user=user).amount
+
+			if spent ==0 :
+				return 18
+			else:
+				return 100-(amount-int(amount))*100
+	def getRewardForUser(currentUser):    # get the reward amount
+		spent = Purchase.getSpentAmount(currentUser)
+		if spent == 0 :
+			rewardForNewuser=Reward(user=currentUser,amount=0.18)
+			rewardForNewuser.receiveReward()
+			rewards=rewardForNewuser
+			amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
+			return 0
+		else :
+			amount = Reward.objects.get(user=currentUser).amount
+			re = int(amount)
+			return re
+	def updateReward(currentUser):  # update the reward when purchase
+		spent = Purchase.getSpentAmount(currentUser)
+	def useReward(self,amountUsed): # use the reward and change the amountUseds
+		self.amount = self.amount - amountUsed
+	def useReward(user,amountUsed): # used to update amount outside the class
+		r = Reward.objects.get(user=user)
+		r.useReward(amountUsed)
+
 
 
 
@@ -130,7 +171,7 @@ class Administrator(models.Model):
 	adminID = models.CharField(max_length=200)
 
 class Recommendation(models.Model):
-    
+    .
 	userId = models.ForeignKey(User)
 	def __str__(self):
 		return self.userId.first_name + self.userId.last_name

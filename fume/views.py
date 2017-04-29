@@ -31,12 +31,14 @@ def signup(request):
 
 @login_required
 def games(request, game_id):
+	currentUser = request.user
 	game = Game.objects.get(game_id=game_id)
 	tags = Tag.objects.filter(game=game).all()
 	imageList = game.getImageList()
 	image1 = imageList[0]
 	image2 = imageList[1]
-	return render(request, 'fume/gamePage.html', {'tag_id':game_id, 'tags':tags,'game':game,'image1':image1,'image2':image2})
+	purchased = getGamePurchaseStatus(currentUser,game)
+	return render(request, 'fume/gamePage.html', {'tag_id':game_id, 'tags':tags,'game':game,'image1':image1,'image2':image2, 'purchased':purchased})
 
 @login_required
 def purchase(request, game_id):
@@ -124,12 +126,8 @@ def featured(request):
 	recmd = Recommendation(userId=currentUser)
 	rcmdList = recmd.getRecommendationList()
 	#Print Rewards
-	try:
-		rewards=Reward.objects.get(user=currentUser).amount
-		amountToNextReward = Reward.objects.get(user=currentUser).getAmountToNextReward(currentUser)
-	except :
-		rewardForNewuser=Reward(user=currentUser,amount=0)
-		rewardForNewuser.receiveReward()
-		rewards=rewardForNewuser
-		amountToNextReward = rewardForNewuser.getAmountToNextReward(currentUser)
+
 	return render(request, 'fume/featured.html', {'rcmdList':rcmdList, 'rewards':rewards,'amountToNextReward':amountToNextReward})
+
+
+	
