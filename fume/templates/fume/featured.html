@@ -59,8 +59,21 @@
         <li class="item"><a href="#">New Games</a></li>
         <li class="item"><a href="#">Early Access</a></li>
       </ul>
-      <div>
-        <h5>You have {{rewards}} Rewards.</h5>
+      <div class="rewardListC">
+	<h4><b>Your rewards:</b></h4>
+	<table class="rewardList">
+	<tr>
+		<th>Award Date</th>
+		<th>Expiry Date</th>
+	</tr>
+	{% for reward in rewards %}
+		<tr>
+			<td>{{reward.timeReceived}}</td>
+			<td>{{reward.expirationDate}}</td>
+		</tr>
+	{% endfor %}
+	</table>
+	<h4>You need {{ amountToNextReward }} more spending to redeem a new reward</h4>
       </div>
     </div>
 

@@ -136,7 +136,7 @@ def featured(request):
 	# Get featured game list for general users
 	ftr = FeaturedGame.objects.all().filter(title="ftr")[0]
 	ftrList = Game.objects.all().filter(featuredGame=ftr)
-
+	
 	if request.user.is_authenticated():
 		neededAmount = Reward.getAmountToNextReward(user)
 
@@ -145,7 +145,7 @@ def featured(request):
 		rcmdList = recmd.getRecommendationList()
 
 		#Print Rewards
-		rewards = Reward.numberOfReward(currentUser)
+		rewards = Reward.getAllRewards(currentUser)
 		amountToNextReward = Reward.getAmountToNextReward(currentUser)
 	else:
 		recmd = None
