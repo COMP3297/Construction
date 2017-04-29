@@ -60,21 +60,20 @@
         <li class="item"><a href="#">Early Access</a></li>
       </ul>
       <div class="rewardListC">
-	<h5>Your rewards:</h5>
+	<h4><b>Your rewards:</b></h4>
 	<table class="rewardList">
 	<tr>
 		<th>Award Date</th>
 		<th>Expiry Date</th>
-		<th>Amount</th>
 	</tr>
 	{% for reward in rewards %}
 		<tr>
 			<td>{{reward.timeReceived}}</td>
 			<td>{{reward.expirationDate}}</td>
-			<td>{{reward.amount}}</td>
 		</tr>
 	{% endfor %}
 	</table>
+	<h4>You need {{ amountToNextReward }} more spending to redeem a new reward</h4>
       </div>
     </div>
 
