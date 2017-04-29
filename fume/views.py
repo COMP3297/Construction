@@ -67,7 +67,6 @@ def purchase(request, game_id):
 	amount = this_cart.game.all().count()
 	games = this_cart.game.all()
 
-	totalGameList = zip(games, RewardFormSet)
 
 	totalAmount = this_cart.getTotal()
 	form = PlatformForm(request.POST)
