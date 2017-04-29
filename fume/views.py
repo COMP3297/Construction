@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 # Create your views here.
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
-from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward
+from fume.models import FeaturedGame,Game,Cart,Tag,User,Recommendation,Purchase,Platform,getUserPurchaseHistory,Reward,getGamePurchaseStatus
 from fume.forms import LoginForm,NameForm,PlatformForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm

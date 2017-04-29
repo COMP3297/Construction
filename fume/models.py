@@ -181,10 +181,6 @@ class Administrator(models.Model):
 	adminID = models.CharField(max_length=200)
 
 class Recommendation(models.Model):
-<<<<<<< HEAD
-    .
-=======
->>>>>>> origin/master
 	userId = models.ForeignKey(User)
 	def __str__(self):
 		return self.userId.first_name + self.userId.last_name

@@ -24,7 +24,6 @@ urlpatterns = [
         auth_views.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth_views.password_reset_complete, name='password_reset_complete'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
-    url()
     ]
 
 LOGIN_URL = 'login'
